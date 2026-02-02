@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HEIF / HEIC → JPEG Converter (Batch)</title>
+  <link rel="stylesheet" href="./heif-to-jpeg.css">
+</head>
+<body>
+  <div class="container" role="main">
+    <h1>HEIF / HEIC → JPEG Converter (Batch)</h1>
+    <p class="lead">Select one or more HEIF/HEIC files (or drop them) to convert to JPEG in your browser. Conversion is local — no uploads.</p>
+
+    <div id="uploader" class="uploader" tabindex="0">
+      <strong>Drop HEIC/HEIF files here (supports multiple)</strong>
+      <div style="margin-top:8px;color:var(--muted)">or</div>
+      <label class="btn" for="fileInput" style="margin-top:8px;cursor:pointer">Choose files</label>
+      <input id="fileInput" type="file" accept="image/heic,image/heif,.heic,.heif" multiple />
+
+      <div class="controls" style="justify-content:center;">
+        <label>Quality
+          <input id="quality" type="range" min="0.3" max="1" step="0.05" value="0.9" title="JPEG quality (0.3-1)">
+          <span id="qval">0.90</span>
+        </label>
+        <label>
+          Use WASM fallback if needed
+          <select id="wasmFallback">
+            <option value="auto" selected>Auto (recommended)</option>
+            <option value="on">On (force heic2any)</option>
+            <option value="off">Off (try native only)</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="top-actions">
+        <button id="convertBtn" class="btn">Convert selected</button>
+        <button id="downloadZipBtn" class="btn hidden">Download all as ZIP</button>
+        <div id="globalStatus" style="margin-left:8px;color:var(--muted);font-size:13px">No files selected</div>
+      </div>
+    </div>
+
+    <div id="gallery" class="gallery" aria-live="polite"></div>
+
+    <footer>
+      Note: The page loads a WASM fallback converter library when needed. For ZIP downloads we use JSZip from a CDN. Very large files or many files may be memory-intensive.
+    </footer>
+  </div>
+
+  <script src="./heif-to-jpeg.js" defer></script>
+</body>
+</html>
