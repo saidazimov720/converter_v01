@@ -20,6 +20,9 @@ body {
   padding: 28px;
 }
 
+/* make sizing predictable */
+*, *::before, *::after { box-sizing: border-box; }
+
 .container {
   width: 1000px;
   max-width: calc(100vw - 48px);
@@ -47,6 +50,11 @@ p.lead {
   text-align: center;
   transition: border-color 150ms ease, background 150ms ease;
   background: linear-gradient(180deg, rgba(37,99,235,0.03), transparent);
+  /* make drop-zone comfortable to tap on phones */
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .uploader.dragging {
@@ -75,6 +83,10 @@ input[type="file"] { display: none; }
   margin-top: 12px;
   flex-wrap: wrap;
 }
+
+/* range input sizing and spacing */
+#quality { width: 160px; }
+#qval { display: inline-block; min-width: 44px; text-align: right; margin-left: 8px; }
 
 label { font-size: 13px; color: var(--muted); }
 
@@ -134,4 +146,27 @@ footer { margin-top: 18px; font-size: 12px; color: var(--muted); }
   .btn { padding: 12px 16px; font-size: 16px; }
 
   .uploader { padding: 14px; }
+
+  /* make range full-width on small screens */
+  #quality { width: 100%; }
+  label { font-size: 15px; }
+  p.lead { font-size: 14px; }
 }
+
+/* Tablet / narrow desktops: two-column gallery */
+@media (max-width: 900px) and (min-width: 641px) {
+  .container { max-width: calc(100vw - 32px); }
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+  #quality { width: 220px; }
+  h1 { font-size: 22px; }
+}
+
+/* Accessibility / focus */
+:focus { outline: none; }
+.btn:focus, .uploader:focus, .download-link:focus {
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+  border-radius: 8px;
+}
+
+/* Prevent horizontal overflow on very small devices */
+html, body { max-width: 100%; overflow-x: hidden; }
