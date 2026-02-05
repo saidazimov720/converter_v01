@@ -1,4 +1,4 @@
-// CDN resources
+
 const HEIC2ANY_CDN = 'https://unpkg.com/heic2any/dist/heic2any.min.js';
 const JSZIP_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
 
@@ -15,7 +15,7 @@ const globalStatus = document.getElementById('globalStatus');
 qval.textContent = parseFloat(qualityRange.value).toFixed(2);
 qualityRange.addEventListener('input', () => qval.textContent = parseFloat(qualityRange.value).toFixed(2));
 
-// Drag and drop UX
+
 ['dragenter','dragover'].forEach(ev => {
   uploader.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); uploader.classList.add('dragging'); }, false);
 });
@@ -31,7 +31,7 @@ fileInput.addEventListener('change', () => {
   const files = Array.from(fileInput.files || []);
   if (files.length) {
     addFiles(files);
-    // Clear value so the same files can be selected again if needed
+
     try { fileInput.value = ''; } catch (e) { /* ignore */ }
   }
 });
@@ -41,12 +41,12 @@ uploader.addEventListener('keypress', e => { if (e.key === 'Enter' || e.key === 
 convertBtn.addEventListener('click', () => {
   const fileCards = Array.from(document.querySelectorAll('.card[data-state="ready"]'));
   if (!fileCards.length) return alert('No files queued for conversion');
-  // start conversion sequentially to avoid memory spikes
+
   convertSequential(fileCards.map(c => c.dataset.index));
 });
 
 downloadZipBtn.addEventListener('click', async () => {
-  // collect converted blobs
+  
   const converted = Array.from(document.querySelectorAll('.card[data-state="done"]')).map(c => {
     return {
       name: c.dataset.outname,
@@ -78,17 +78,17 @@ downloadZipBtn.addEventListener('click', async () => {
   globalStatus.textContent = `ZIP downloaded (${converted.length} files)`;
 });
 
-// Store queued files in memory as cards
+
 let queuedFiles = [];
 
 function addFiles(files) {
-  // Filter for file types (basic check)
+  
   const heicFiles = files.filter(f => /\.(heic|heif)$/i.test(f.name) || f.type === 'image/heic' || f.type === 'image/heif');
   if (!heicFiles.length) {
     alert('No HEIC/HEIF files found in selection.');
     return;
   }
-  // Deduplicate by name+size to avoid duplicate cards
+  
   const newFiles = heicFiles.filter(f => !queuedFiles.some(q => q.name === f.name && q.size === f.size));
   if (!newFiles.length) {
     alert('No new HEIC/HEIF files were added (duplicates skipped).');
